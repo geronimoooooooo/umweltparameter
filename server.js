@@ -2,6 +2,9 @@ import express from 'express';
 import 'dotenv/config';
 import { stations } from './sharedObjects.js';
 import he from "he";
+import xmlBeautify from "xml-beautify";
+import beautify from "xml-beautifier";
+
 
 const app = express();
 
@@ -17,7 +20,13 @@ app.get('/', (req, res) => {
   +"(beim MDS) einer Messstation und kann somit helfen zu verhindern, dass "
   + "bei einer Änderung (Reihenfolge, Umbenennung, Hinzufügen, Entfernen, etc) der Umweltparameter "
   + "die Messwerte nicht in eine falsche Spalte in der Datenbank abgespeichert werden."
-  res.render('index', {textIntro}); 
+  let xml = '<root><person><name>John</name></person></root>';
+  xml = stations[0].pmdl;
+  let xml2 = beautify(xml);
+  console.log(xml2);  
+  let xml4 =  xml2.replace(/\n/g, "\\n");
+  console.log(xml4);
+  res.render('index', {textIntro, xml, xml2, xml4}); 
 });
 
 app.get('/station-show',(req, res)=>{
@@ -49,11 +58,11 @@ app.post('/station-selected',(req, res)=>{
   xml = xml.replace(/\s+/g, ""); //remove spaces
   stationPmdl= stationPmdl.replace(/\s+/g, ""); //remove spaces
   if(he.escape(xml)===he.escape(stationPmdl)){
-    console.log("text is gleich");
+    console.log("text is gleich: " + beautify(stationPmdl));
   }else{
     console.log(he.escape(stationPmdl));
   }
-  res.send(`Station ${stationName} mit ID: ${stationId} mit pmdl: ${he.escape(stationPmdl)}`)
+  res.send(`Station ${stationName} mit ID: ${stationId} mit pmdl: ${beautify(stationPmdl)}`)
 })
 
 app.listen(PORT, () => {  // Listen on port 3000
