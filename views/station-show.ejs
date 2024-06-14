@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ('partials/head', {titlePage:"Station anzeigen"}) %>
+  </head>
+
+  <body class="container">
+    <header><%- include ('partials/header') %></header>
+    <main>
+      <p><%= textIntro %></p>
+      <p>station -show</p>
+
+      <form action="/station-selected" method="post">
+        <div>
+          <select name="station">
+            <% stations.forEach((station) => { %>
+            <option value="<%=`${station.name} @@ ${station.id} `%>">
+              <%=`${station.name} - ${station.id}`%>
+            </option>
+            <% }); %>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+    </main>
+    <footer><%- include('partials/footer') %></footer>
+  </body>
+</html>
