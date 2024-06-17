@@ -1,11 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+    
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Default page">
+
+    <!--muss vor den anderen .js imports sein, wenn diese jquery code nutzen-->
+    <!--https://releases.jquery.com/-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>>-->
+
+
+    <script src="../../public/j_js.js"></script>
+    <link rel="stylesheet" type="text/css" href="/c_css.css">
+
+    <!-- Latest compiled and minified CSS for bootstrap-SELECT-->    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/2.0.0-beta1/css/bootstrap-select.min.css" integrity="sha512-Q8vAB6GL+zb917fZJJJxO8TKJH5lZKsqnEDO+0oUjy5wpc/jYo5QpMuMx84n8m/gY/DitaK1j2DQeb/Vosudtg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Latest compiled and minified JavaScript for bootstrap-SELECT-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/2.0.0-beta1/js/bootstrap-select.min.js" integrity="sha512-Ks94O6MWV+hcOyqlaaOmsDe08l4+EFiDetgxBKAJ5I995UEn+u4DQ9ziANFLqpQhMLGbmCq02A/U3Tryjdgwcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+
+    <!-- bootstrap.css muss als letztes aufgelistet werden, ansonsten spackt irgendwas rum -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/public/bootstrap530.min.css">
+        
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="icon" href="img/favicon.ico?v=2" type="image/vnd.microsoft.icon">
+    <link rel="icon" href="img/favicon.ico" type="image/vnd.microsoft.icon">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../img/favicon-96x96.png">
+
+    <title><%= titlePage %></title>
+</head>
   <body>
+    
     hey
   </body>
 </html>

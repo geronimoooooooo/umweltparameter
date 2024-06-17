@@ -1,0 +1,16 @@
+history-install
+ECHO.%PATH:;= & ECHO.%
+
+4.4.2023 Firefox
+4.4.2023 python 3.11. pip ist bei neuem python schon dabei.
+4.4.2023 java 20
+4.4.2023 VS Code
+4.4.2023 neustart
+18.4.202 3Python Extension in VSC
+18.4.2023 Node.js installed
+18.4.2023 Zum Node.js werden noch weitere 3GB (Chocolatey) an Tools automatisch runtergeladen, damit Module ausführbar sind. Kann Stunden dauern. Immer Leertaste drücken.
+20.10.2023 git https://git-scm.com/download/win
+9.11.2023 win64OpenSSL C:\Program Files\OpenSSL-Win64;       Copy OpenSSL DLLs to:         The OpenSSL binaries (/bin) directory
+14.3.2024 apache tomcat 10.1
+
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout privateKey.key -out certificate.crt

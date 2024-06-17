@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head><%- include ('partials/head', {titlePage:"xXx"}) %></head>
+	<head><%- include ('partials/head', {titlePage:"Datei hochgeladen"}) %></head>
 
   <body class="container">       
     <header><%- include ('partials/header') %></header>  
     <main>    
-      <section>      </section>        
+      <p><%= textIntro %></p>
+
+      <p class="pt-5">Inhalt der Konfigurationsdatei:</p>
+      <p><pre><%=configFileText %></pre></p>
       
     </main>      
     <footer><%- include('partials/footer') %></footer>

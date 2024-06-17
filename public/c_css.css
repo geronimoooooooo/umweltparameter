@@ -1,16 +1,24 @@
-.footer1 {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #ffffff;
-    padding: 10px;
-    text-align: center;
-  }
+.footer1 {  
+  background-color: #ffffff;
+  padding: 10px;
+  text-align: center;
+}
 
 .colorGreen {
   background-color: green;
 }
 .colorAmazon {
   background-color: #f6f6f6;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/*The main content area is set to flex: 1, which makes it take up any available space between 
+the header and the footer. This pushes the footer to the bottom when there isn't enough content to do so naturally.*/
+main {
+  flex: 1;
 }
