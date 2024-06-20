@@ -15,8 +15,10 @@
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "he": "^1.2.0",
+    "log4js": "^6.9.1",
     "multer": "^1.4.5-lts.1",
     "xml-beautifier": "^0.5.0",
-    "xml-beautify": "^1.2.3"
+    "xml-beautify": "^1.2.3",
+    "xml2js": "^0.6.2"
   }
 }

@@ -1,6 +1,6 @@
 import express from 'express';
 import 'dotenv/config';
-import { stations } from './sharedObjects.js';
+import { stations, stations2, stationsMds, stationsMds2 } from './sharedObjects.js';
 import he from "he";
 import xmlBeautify from "xml-beautify";
 import beautify from "xml-beautifier";
@@ -8,7 +8,12 @@ import multer  from "multer";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from 'url';
+import xml2js from "xml2js";
+import e from 'express';
+import {myList, stations as sta, parseXml} from "./xml.js";
+import { logger } from './logger.js';
 
+let anotherList = [];
 // Replicate __filename and __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +29,12 @@ app.set('view engine', 'ejs');
 app.use(express.json()); // for json
 app.use(express.urlencoded({ extended: true })); // for form data
 
+// Middleware
+app.use("/",(req, res, next) => {
+  console.log(`Request received at ${new Date()}`);
+  next();
+});
+
 app.get('/', (req, res) => {
   let textIntro = "Diese Webseite erlaubt eine Überprüfung der gemessenen Umweltparameter "
   +"(beim MDS) einer Messstation und kann somit helfen zu verhindern, dass "
@@ -38,11 +49,33 @@ app.get('/', (req, res) => {
   res.render('index', {textIntro, xml, xml2, xml4, configFileText}); 
 });
 
-app.get('/station-show',(req, res)=>{
+app.get('/station-show', async (req, res)=>{
+  // console.log("configfile: "+ configFileText);
+
   let textIntro="Um zu sehen welche Änderungen bei den Umweltparametern abgefragt und erfasst wurden, "
   +"eine Messstation im dropdown-menu wählen und auf den Button klicken.";
+  console.log(("stationmds: "+stationsMds.length))
 
-  res.render('station-show', {textIntro, stations});
+  parseXml(configFileText);
+  
+
+
+  // let stationenListe = result.stationen.map((station) => stationen.station);
+  // console.log(stationenListe[0]);
+
+  // const stationId = result.tsel.tsmd[0].tsd[0].dn;
+  // console.log(stationId); // Output: 25062015
+  // const pElements = result.tsel.pmdl[0].pmd.map((pmd) => pmd.p[0]);
+  // console.log(pElements);
+  // let station = stationsMds.find((e)=>e.id == stationId);
+  // console.log("station: "+stations2.length);
+  // stations2.push({name:"abc", id: stationId, umweltparameter: pElements});
+  // stations2.push({name:"xxx", id: stationId, umweltparameter: pElements});
+  // stations2.push({name:"333", id: stationId, umweltparameter: pElements});
+  // console.log("station: "+stations2.length);
+  let stations = [...sta];
+  logger.info("info here!");
+  res.render('station-show', {textIntro,  stations, stations2, stationsMds2});
 });
 
 app.get('/station-query',(req, res)=>{
