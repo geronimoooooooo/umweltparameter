@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ('partials/head', {titlePage:"Station anzeigen"}) %>
+  </head>
+
+  <body class="container">
+    <header><%- include ('partials/header') %></header>
+    <main>
+      <p><%= textIntro %></p>      
+<!--
+      <form action="/station-selected" method="post">
+        <div>
+          <select name="station">
+            <% arrStationsConfigSimple.forEach((station) => { %>
+            <option value="<%=`${station.name} @@ ${station.nummer} `%>">
+              <%=`${station.name} - ${station.id}`%>
+            </option>
+            <% }); %>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+-->
+      <p>Stationen bei denen die Liste der Umweltparameter nicht identisch ist:</p>
+      <% arrStationsProbUmwParameter.forEach((station)=>{ %>
+        <div>
+          <ul>            
+            <li><%=station.name %> </li>
+          
+        </ul>
+      </div>
+      <%})%>
+
+
+
+      <% for (var i = 0; i < arrStationsConfigSimple.length; i++) { 
+        let stationsName = arrStationsConfigSimple[i].name;
+        let stationsID = arrStationsConfigSimple[i].nummer
+        let stationMds = arrStationsXmlResponseFormatted.find((e)=>e.nummer == stationsID);
+        ;
+        %>      
+      <table id="myTable" class="table table-striped">
+       <%if(arrStationsProbUmwParameter.some(station => station.nummer == stationsID)){ %>
+         <caption style="text-align:center; caption-side:top; color: red; font-weight: bold;"><%=`${stationsName} (${stationsID}) `%></caption>
+        <%}else{%>
+          <caption style="text-align:center; caption-side:top"><%=`${stationsName} (${stationsID}) `%></caption>
+        <%}%>
+        <thead>
+          <tr>
+            <th>Konfigurationsdatei</th>
+            <th>Aktuell MDS</th>            
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <% 
+          let stationParaLength = arrStationsConfigSimple[i].umweltparameter.length;
+          let paraLength;
+          let p2;
+
+          if(stationMds == undefined){
+            console.log("--undef");
+            paraLength = stationParaLength;
+          }else{
+            console.log("++def");
+            p2 = stationMds.umweltparameter.length;
+            paraLength = stationParaLength > p2 ? stationParaLength : p2;
+          }
+          console.log("length para: "+paraLength);
+           for (var j = 0; j < paraLength ; j++) { %>
+            <tr>
+              
+              <% if(arrStationsConfigSimple[i].umweltparameter[j] == undefined){%>
+                <td><span style="color: red;">fehlt</span></td>    
+              <%}else{%>             
+              <td><%= arrStationsConfigSimple[i].umweltparameter[j] %></td>
+              <%}%>
+
+              <% if((stationMds == undefined)||(stationMds.umweltparameter[j] == undefined)){%>
+                <td><span style="color: red;">fehlt</span></td>
+              <%}else{%>             
+              <td><%= stationMds.umweltparameter[j] %></td>
+              <%}%>
+
+            </tr>
+          <% }; %>
+        </tbody>
+      </table>
+      <%}%>
+
+    </main>
+    <footer><%- include('partials/footer') %></footer>
+  </body>
+</html>

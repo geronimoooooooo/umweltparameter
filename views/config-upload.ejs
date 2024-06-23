@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include ('partials/head', {titlePage:"config-file"}) %>
+</head>
+
+<body class="container containerBecauseOfFooter">
+  <header><%- include ('partials/header') %></header>
+  <main>
+    <p>
+      <%= textIntro %>
+    </p>
+
+    <h2>Konfigurationsdatei hochladen</h2>
+    <form action="/config-file-upload" method="post" enctype="multipart/form-data">
+      <!-- Input type file -->
+      <div class="form-group">
+        <div class="mb-3">          
+          <input class="form-control" type="file" id="file" name="file">
+          <small class="text-muted form-text">Die Konfigurationsdatei, mit dem eingefügten
+            <span><strong> &lt;pmdl&gt; </strong></span> Umweltparameter Abschnitt hochladen.</small>
+          <button type="submit" name="btn-file" id="btn-file" class="mt-2 btn btn-primary float-end">Datei hochladen</button>
+        </div>
+      </div>
+    </form>
+
+    <h2 class="pt-5">Konfigurationsdatei einfügen und abschicken</h2>
+    <form action="/config-file-textArea" method="post">
+      <div class="form-group">
+        <label>Textarea : </label>
+        <textarea class="form-control" id="textAreaConfigFile" name="textAreaConfigFile" rows="3"></textarea>
+      </div>
+      <button type="submit" name="btn-textArea" id="btn-textArea" class="mt-2 btn btn-primary float-end">Text abschicken</button>
+    </form>
+
+    <p class="pt-5">Inhalt der Konfigurationsdatei (erstellt am <%=configFileProvidedOn %>):</p>
+    <p>
+    <pre><%=configFileText %></pre>
+    </p>
+
+
+  </main>
+  <footer><%- include('partials/footer') %></footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const fileInput = document.getElementById('file');      
+
+      // const submitButtonFile = document.querySelector('button[type="submit"]'); 
+      const submitButtonFile = document.getElementById("btn-file");      
+
+      // Disable the button initially
+      submitButtonFile.disabled = true;
+      
+
+      // Add an event listener to the file input
+      fileInput.addEventListener('change', function() {
+        if (fileInput.files.length > 0) {
+          // Enable the button if a file is selected
+          submitButtonFile.disabled = false;
+        } else {
+          // Disable the button if no file is selected
+          submitButtonFile.disabled = true;
+        }
+      });
+
+      const textAreaConfigFile = document.getElementById('textAreaConfigFile');
+      const submitButtonText = document.getElementById("btn-textArea");
+      submitButtonText.disabled = true;
+
+      // Add an event listener to the text area
+      textAreaConfigFile.addEventListener('input', function() {
+        if (textAreaConfigFile.value.trim().length > 0) {
+          // Enable the button if a file is selected
+          submitButtonText.disabled = false;
+        } else {
+          // Disable the button if no file is selected
+          submitButtonText.disabled = true;
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

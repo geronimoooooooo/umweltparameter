@@ -1,10 +1,6 @@
 import e from "express";
 import xml2js from "xml2js";
 
-/*test
-*/
-let stationListe = []; //aaa
-
 async function parseXmlAsync(data) {
   return new Promise((resolve, reject) => {
     xml2js.parseString(data, { explicitArray: false }, (err, xml) => {
@@ -29,16 +25,18 @@ function parseXml2(xml) {
     });
 
     /*
-    // const stations = result.klima.stationen[0].station[0].name;//["klima"]["stationen"]["station"][0];
-    const stations = result.klima.stationen[0].station[0];
-    console.log("stations: " + stations); // stations: [object Object]
-    console.dir(stations, { depth: null });
+    // const arrStationsConfigSimple = result.klima.stationen[0].station[0].name;//["klima"]["stationen"]["station"][0];
+    const arrStationsConfigSimple = result.klima.stationen[0].station[0];
+    console.log("arrStationsConfigSimple: " + arrStationsConfigSimple); // arrStationsConfigSimple: [object Object]
+    console.dir(arrStationsConfigSimple, { depth: null });
     */
   });
 }
 
-let stations = [];
-function parseXml(xml) {
+let arrStationsConfig = []; 
+let arrStationsConfigSimple = [];
+function parseConfigXml(xml) {
+  arrStationsConfig = [];
   let arrList = [];
   let arrLoc = [];
   xml2js.parseString(xml, { explicitArray: false }, function (err, result) {
@@ -58,20 +56,11 @@ function parseXml(xml) {
     // });
 
     // result.klima.stationen.station.forEach((station) => {console.dir(station, { depth: null });});
-    stationListe = result.klima.stationen.station;
-    // console.dir(stationListe, { depth: null });
-    
-    stationListe.forEach((e)=>{
-      let umweltparameter = [];
-      e.pmdl.pmd.forEach((up)=> umweltparameter.push(up.p));
-      
-      stations.push({name:e.name, nummer:e.nummer, umweltparameter:umweltparameter})
-    })
-    // console.log(stations);
-
-
+    arrStationsConfig = result.klima.stationen.station;
+    // console.dir(arrStationsConfig, { depth: null });
+    // console.log(arrStationsConfigSimple);
   });  
+  return arrStationsConfig;
 }
-let myList = [1, 2, 3, 4, 5];
 
-export {myList, stations, parseXmlAsync, parseXml, parseXml2 };
+export {arrStationsConfigSimple, arrStationsConfig, parseXmlAsync, parseConfigXml, parseXml2 };

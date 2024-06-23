@@ -1,3 +1,5 @@
+file-uploads/*
+files/default-arch-config_full_pmdl.xml
 # Logs
 logs
 *.log
