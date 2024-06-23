@@ -1,4 +1,5 @@
 import express from "express";
+import https from "https";
 import "dotenv/config";
 import { arrStationsNummern, stations, arrStationsProbUmwParameter,  stationsMds,  stationsMds2,} from "./sharedObjects.js";
 import he from "he";
@@ -49,8 +50,7 @@ app.get("/", (req, res) => {
   let xml2 = beautify(xml);
   console.log(xml2);
   let xml4 = xml2.replace(/\n/g, "\\n");
-  console.log(xml4);
-  configFileProvidedOn = new Date();
+  console.log(xml4);  
   logger.info("time: " + configFileProvidedOn);
   res.render("index", { textIntro, xml, xml2, xml4, configFileText });
 });
@@ -63,7 +63,8 @@ app.get("/compare-umweltparameter", async (req, res) => {
     " angegeben sind und welche Umweltparameter in dem aktuell vom MDS abgefragten response-XML auftreten." +
     " Falls es Unterschiede geben sollte, dann werden Daten im best-case gar nicht in die DB abgespeichert" +
     " und im worst-case werden Daten in der falschen Spalte in der Stationstabelle abgespeichert.\n" +
-    " Sollte ein Stationsname hier auf der Seite rot aufleuchten, dann sollte das näher angeschaut werden!";
+    " Sollte ein Stationsname hier auf der Seite rot aufleuchten, dann sollte das näher angeschaut werden!"+
+    " Jeder Aufruf dieser Seite fragt den MDS nach 10-20 Minuten alten Messdaten (Umweltparametern) ab.";
   
   // let stationenListe = result.stationen.map((station) => stationen.station);
   // console.log(stationenListe[0]);
@@ -73,11 +74,9 @@ app.get("/compare-umweltparameter", async (req, res) => {
   // const pElements = result.tsel.pmdl[0].pmd.map((pmd) => pmd.p[0]);
   // console.log(pElements);
   // let station = stationsMds.find((e)=>e.id == stationId);
-  // console.log("station: "+arrStationsProbUmwParameter.length);
+  
   // arrStationsProbUmwParameter.push({name:"abc", id: stationId, umweltparameter: pElements});
-  // arrStationsProbUmwParameter.push({name:"xxx", id: stationId, umweltparameter: pElements});
-  // arrStationsProbUmwParameter.push({name:"333", id: stationId, umweltparameter: pElements});
-  // console.log("station: "+arrStationsProbUmwParameter.length);
+  
 
   if (configFileText != undefined) {
     arrStationsNummern.length = 0;
@@ -118,8 +117,7 @@ app.get("/compare-umweltparameter", async (req, res) => {
 
     res.render("compare-umweltparameter", {textIntro, arrStationsConfigSimple, arrStationsXmlResponseFormatted, arrStationsProbUmwParameter });
   } else {    
-    res.render("no-config-file", {textIntro, configFileText, configFileProvidedOn,
-    });
+    res.render("no-config-file", {textIntro, configFileText, configFileProvidedOn });
   }
 });
 
@@ -133,7 +131,7 @@ app.get("/config-upload", (req, res) => {
     "Hier kann die aktuell genutzt Konfigurationsdatei angegeben werden. Es wird anschließend " +
     "die Umweltparameterliste aus dieser Konfigurationsdatei mit der Umweltparameterliste aus den XML-responses" +
     " der einzelnen Stationen vom MDS verglichen.";
-  configFileProvidedOn = "";
+  
   if (configFileText == undefined) {
     logger.info("message" + new Date().toUTCString());
   }
@@ -178,8 +176,7 @@ app.post("/config-file-upload", upload.single("file"), (req, res) => {
     configFileText = data;
     console.log(configFileText);
     let textIntro =
-      new Date().toUTCString() +
-      ": File uploaded and content saved/printed to console.";
+      new Date().toUTCString() + ": File uploaded and content saved/printed.";
     // res.render('file-uploaded', {textIntro, configFileText})
     configFileProvidedOn = new Date();
 
@@ -195,13 +192,55 @@ app.post("/config-file-textArea", (req, res) => {
   //req.body; { textAreaConfigFile: '1111' }
   configFileText = req.body.textAreaConfigFile; //use here beautify()
   // console.log(configFileText);
-  let textIntro =
-    new Date().toUTCString() +
-    ": Content from textarea sent and content saved/printed to console.";
-  res.render("config-upload", { textIntro, configFileText });
+  let textIntro = new Date().toUTCString() +  ": Content from textarea sent and saved/printed.";
+  configFileProvidedOn = new Date();
+  res.render("config-upload", { textIntro, configFileText, configFileProvidedOn });
 });
 
-app.listen(PORT, () => {
-  // Listen on port 3000
-  console.log(`Server is running at http://localhost:${PORT}`);
+//#region WEBSERVER
+//#region https
+// const httpsServer = https.createServer({
+//     key: fs.readFileSync('privateKey.key'),
+//     cert: fs.readFileSync('certificate.crt'),
+//   }, app);
+
+// var privateKey  = fs.readFileSync('sslcert/privateKey.key', 'utf8');
+// var certificate = fs.readFileSync('sslcert/certificate.crt', 'utf8');
+
+// var credentials = {key: privateKey, cert: certificate};
+
+/* const credentials = {
+    key: fs.readFileSync('sslcert/privateKey.key'),
+    cert: fs.readFileSync('sslcert/certificate.crt')
+  };
+*/
+//#endregion
+
+//set NODE_OPTIONS=--openssl-legacy-provider in cmd in VS;read magic wiki
+const credentials = {
+  pfx: fs.readFileSync('sslcert/STAR_researchstudio_at.pfx')
+};
+
+const portHTTPS = process.env.PORTHTTPS || 443
+const httpsServer = https.createServer(credentials, app);
+
+// const port = process.env.PORT || 3000
+// app.listen(port, ()=>{
+//   console.log(`browse this url: localhost:${port}`);  
+// });
+
+//443 used: check tomcat http://localhost:8080/ 
+httpsServer.listen(portHTTPS, (err) => {
+  if(err){
+    console.log("Error: ", err);
+    console.log(new Date().toISOString()+` https server could not start on port: ${portHTTPS}`);
+  }else{
+    console.log(new Date().toISOString()+` https server running on port: ${portHTTPS}`);
+    console.log(new Date().toISOString()+` call: https://ispacevm04.researchstudio.at/main`);
+  }
 });
+//#endregion
+
+
+
+
