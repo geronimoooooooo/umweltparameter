@@ -12,34 +12,18 @@
       <li>Konfigurationsdatei angeben</li>
       <li>Umweltparameter vergleichen</li>
     </ol>
-    
-    <p><pre><%= xml %></pre></p>
-    <p><pre><%= xml2 %></pre></p>
-    <p><%= xml2 %></p>
-    <p><pre><%= configFileText %></pre></p>
-    
 
     <main>
-      <p class="colorGreen">use https://jsonformatter.org/xml-formatter</p>
-      a
-      <div data-xml="<%- xml %>"></div>
-      b
-      <div data-xml2="<%= xml %>"></div>
-      c
-      <div data-my-variable="<%= xml %>"></div>
-      d
+      
       <div class="colorGreen" id="xmlDiv"></div>
-      <div class="colorAmazon" id="xmlDiv2"></div>
+      
 
       <script>
         //const xmlString2 = '<root><person><name>John</name></person></root>';
         
         let xmlString = '<%= xml %>';
         const div = document.getElementById('xmlDiv');
-        div.innerHTML = '<pre>' + xmlString.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>';
-        let xmlString2 = '<%= xml4 %>';
-        const div2 = document.getElementById('xmlDiv2');
-        div2.innerHTML = '<pre>' + xmlString2.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>';
+        div.innerHTML = '<pre>' + xmlString.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>';        
       </script>
 
 

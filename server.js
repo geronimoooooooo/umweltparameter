@@ -46,13 +46,9 @@ app.get("/", (req, res) => {
     "bei einer Änderung (Reihenfolge, Umbenennung, Hinzufügen, Entfernen, etc) der Umweltparameter " +
     "die Messwerte nicht in eine falsche Spalte in der Datenbank abgespeichert werden.";
   let xml = "<root><person><name>John</name></person></root>";
-  xml = stations[0].pmdl;
-  let xml2 = beautify(xml);
-  console.log(xml2);
-  let xml4 = xml2.replace(/\n/g, "\\n");
-  console.log(xml4);  
+
   logger.info("time: " + configFileProvidedOn);
-  res.render("index", { textIntro, xml, xml2, xml4, configFileText });
+  res.render("index", { textIntro, xml, configFileText });
 });
 
 app.get("/compare-umweltparameter", async (req, res) => {
@@ -218,7 +214,7 @@ app.post("/config-file-textArea", (req, res) => {
 
 //set NODE_OPTIONS=--openssl-legacy-provider in cmd in VS;read magic wiki
 const credentials = {
-  pfx: fs.readFileSync('sslcert/STAR_researchstudio_at.pfx')
+  pfx: fs.readFileSync(path.join(__dirname,'sslcert', 'STAR_researchstudio_at.pfx'))
 };
 
 const portHTTPS = process.env.PORTHTTPS || 443
