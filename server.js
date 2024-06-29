@@ -46,8 +46,7 @@ app.get("/", (req, res) => {
     "bei einer Änderung (Reihenfolge, Umbenennung, Hinzufügen, Entfernen, etc) der Umweltparameter " +
     "die Messwerte nicht in eine falsche Spalte in der Datenbank abgespeichert werden.";
   let xml = "<root><person><name>John</name></person></root>";
-
-  logger.info("time: " + configFileProvidedOn);
+  
   res.render("index", { textIntro, xml, configFileText });
 });
 
