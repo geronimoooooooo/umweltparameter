@@ -28,16 +28,16 @@
       </div>
     </form>
 
-    <h2 class="pt-5">Konfigurationsdatei einfügen und abschicken</h2>
+    <h2 class="pt-5">Konfigurationsdatei als Text einfügen und abschicken</h2>
     <form action="/config-file-textArea" method="post">
       <div class="form-group">
-        <label>Textarea : </label>
+        <label>Textarea </label>
         <textarea class="form-control" id="textAreaConfigFile" name="textAreaConfigFile" rows="3"></textarea>
       </div>
       <button type="submit" name="btn-textArea" id="btn-textArea" class="mt-2 btn btn-primary float-end">Text abschicken</button>
     </form>
 
-    <p class="pt-5">Inhalt der Konfigurationsdatei (erstellt am <%=configFileProvidedOn %>):</p>
+    <p class="pt-5"><b>Inhalt der Konfigurationsdatei</b> (erstellt am <%=configFileProvidedOn %>):</p>
     <p>
     <pre><%=configFileText %></pre>
     </p>

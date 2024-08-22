@@ -1,4 +1,4 @@
-import express from "express";
+import express, { text } from "express";
 import https from "https";
 import "dotenv/config";
 import { arrStationsNummern, stations, arrStationsProbUmwParameter,  stationsMds,  stationsMds2,} from "./sharedObjects.js";
@@ -45,6 +45,7 @@ app.get("/", (req, res) => {
     "(beim MDS) einer Messstation und kann somit helfen zu verhindern, dass " +
     "bei einer Änderung (Reihenfolge, Umbenennung, Hinzufügen, Entfernen, etc) der Umweltparameter " +
     "die Messwerte nicht in eine falsche Spalte in der Datenbank abgespeichert werden.";
+    textIntro = "";
   let xml = "<root><person><name>John</name></person></root>";
   
   res.render("index", { textIntro, xml, configFileText });

@@ -6,14 +6,23 @@
     <header><%- include ('partials/header') %></header>
     <nav><%- include ('partials/nav') %></nav>
        
-    
+    <p>
+    Diese Webseite ermöglicht die Überprüfung der Datenintegrität, der vom MDS in die NPBG DB eingespielten Umweltparametermessungen.
+    Um die Datenintegrität zu überprüfen, wird ein Vergleich der Umweltparameter durchgeführt. Die aufgelisteten Umweltparameter aus der Konfigurationsdatei 
+    werden mit den Umweltparametern der jeweiligen Messstationen (response-XML vom MDS) verglichen. Dabei werden die Bezeichner/Name und Reihenfolge der Umweltparameter verglichen.
+   
+    Die Webseite zeigt an, ob es eine Änderung (Reihenfolge, Umbenennung, Hinzufügen, Entfernen, etc) der Umweltparameter beim MDS im Vergleich zur Konfigurationsdatei gegeben hat. 
+    Der Vergleich zeigt potentielle Probleme auf und hilft dabei, dass Messwerte nicht in eine falsche Spalte in der Datenbank langfristig unbemerkt abgespeichert werden.
+  </p>
     <p><%= textIntro %></p>
 
     <p>Anleitung</p>
     <ol>
-      <li>Konfigurationsdatei angeben</li>
-      <li>Umweltparameter vergleichen</li>
+      <li>Konfigurationsdatei angeben. <small>Es sollte jene genutzt werden, die sich aktuell im Einsatz bei npv-archiv (und npv-betrieb) befindet.</small></li>
+      <li>Umweltparameter vergleichen. <small>Es werden aktuelle Messwerte für jede Messstation vom MDS abgefragt, um die aktuelle Umweltparameterliste zu erhalten (extrahiert aus response-XML).</small></li>
     </ol>
+    
+
 
     <main>
       
