@@ -81,23 +81,23 @@ function getArray(){
 let xmlFromMds = "";
 
 export async function fetchXmlFromMds(url) {
-    try {
-      const response = await fetch(url);
-  
-      // Check if response is OK (status 200)
-      if (!response.ok) {
-        throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
-      }
-  
-      // Read the response as text
-      const xmlString = await response.text();
-      return xmlString;
+  try {
+    const response = await fetch(url);
 
-    } catch (error) {
-      console.error('Error fetching XML:', error);
-      return null;
+    // Check if response is OK (status 200)
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
     }
+
+    // Read the response as text
+    const xmlString = await response.text();
+    return xmlString;
+
+  } catch (error) {
+    console.error('Error fetching XML:', error);
+    return null;
   }
+}
 
 async function getXmlFromMds(){
     fetch(urlGet)
